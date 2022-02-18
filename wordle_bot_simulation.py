@@ -29,6 +29,7 @@ for y in range(100):
     next_guess2 = "soare"
     possible_words = answers + words
     boolean = True
+    string = []
     while boolean == True:
         next_guess_value2 = 10000000
         string = []
@@ -42,6 +43,7 @@ for y in range(100):
         for x in range(5):
             if guess[x] == answer[x]:
                 colour = "green"
+
             elif guess[x] in answer:
                 colour = "yellow"
             else:
@@ -62,9 +64,9 @@ for y in range(100):
             if colour == "yellow":
                 string.append(guess[x])
                 for word in possible_words[:]:
-                    if string.count(guess[x]) > word.count(guess[x]):
-                        possible_words.remove(word)
-                    elif guess[x] not in word:
+                    # if string.count(guess[x]) > word.count(guess[x]):
+                    #     possible_words.remove(word)
+                    if guess[x] not in word:
                         possible_words.remove(word)
                     elif guess[x] == word[x]:
                         possible_words.remove(word)
@@ -74,6 +76,9 @@ for y in range(100):
         new_words = []
         new_words = possible_words.copy()
         possible_answers = possible_words.copy()
+        print(len(possible_answers))
+        if len(possible_answers) == 0:
+            break
 
         for word in possible_words[:]:
             guess = word
@@ -124,7 +129,7 @@ for y in range(100):
     
     
     print("Answer was:", answer)
-    print("Average guesses made by bot: ", i / (y+1))
+    print(y+1, " Current average guesses made by bot: ", i / (y+1))
 
         # print("The suggested next guess is: ", next_guess2, " with an expected remaining words of: ", Next_Guess_Remaining_Words)
         # var = input("Would you like to quit? yes to quit, anything else to continue ")
