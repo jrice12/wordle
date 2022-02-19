@@ -24,7 +24,7 @@ possible_words = answers + words
 boolean = True
 i = 0
 
-for y in range(100):
+for y in range(1000):
     answer = random.choice(answers)
     next_guess2 = "soare"
     possible_words = answers + words
@@ -33,6 +33,7 @@ for y in range(100):
     while boolean == True:
         next_guess_value2 = 10000000
         string = []
+        tempString = []
         guess = next_guess2
         i+=1
         if guess==answer:
@@ -42,10 +43,14 @@ for y in range(100):
 
         for x in range(5):
             if guess[x] == answer[x]:
+                tempString.append(guess[x])
                 colour = "green"
-
             elif guess[x] in answer:
-                colour = "yellow"
+                tempString.append(guess[x])
+                if tempString.count(guess[x]) > word.count(guess[x]):
+                    colour = "grey"
+                else:
+                    colour = "yellow"
             else:
                 colour = "grey"
 
@@ -77,8 +82,7 @@ for y in range(100):
         new_words = possible_words.copy()
         possible_answers = possible_words.copy()
         print(len(possible_answers))
-        if len(possible_answers) == 0:
-            break
+        tempString = []
 
         for word in possible_words[:]:
             guess = word
@@ -91,10 +95,15 @@ for y in range(100):
                     continue
 
                 for x in range(5):
-                    if guess[x] == possible_answer[x]:
+                    if guess[x] == answer[x]:
+                        tempString.append(guess[x])
                         colour = "green"
-                    elif guess[x] in possible_answer:
-                        colour = "yellow"
+                    elif guess[x] in answer:
+                        tempString.append(guess[x])
+                        if tempString.count(guess[x]) > word.count(guess[x]):
+                            colour = "grey"
+                        else:
+                            colour = "yellow"
                     else:
                         colour = "grey"
                     if colour == "green":
@@ -109,8 +118,8 @@ for y in range(100):
                     if colour == "yellow":
                         string.append(guess[x])
                         for word in possible_words[:]:
-                            # if string.count(guess[x]) > word.count(guess[x]):
-                            #     possible_words.remove(word)
+                            if string.count(guess[x]) > word.count(guess[x]):
+                                possible_words.remove(word)
                             if guess[x] not in word:
                                 possible_words.remove(word)
                             elif guess[x] == word[x]:
