@@ -74,7 +74,7 @@ while boolean == True:
                     colour = "green"
                 elif guess[x] in answer:
                     tempString.append(guess[x])
-                    if string.count(guess[x]) > word.count(guess[x]):
+                    if tempString.count(guess[x]) > word.count(guess[x]):
                         colour = "grey"
                     else:
                         colour = "yellow"
