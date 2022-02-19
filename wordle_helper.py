@@ -64,16 +64,24 @@ while boolean == True:
         for answer in possible_answers[:]:
             possible_words = new_words.copy()
             string=[]
+            tempString = []
             if guess==answer:
                 continue
 
             for x in range(5):
                 if guess[x] == answer[x]:
+                    tempString.append(guess[x])
                     colour = "green"
                 elif guess[x] in answer:
-                    colour = "yellow"
+                    tempString.append(guess[x])
+                    if string.count(guess[x]) > word.count(guess[x]):
+                        colour = "grey"
+                    else:
+                        colour = "yellow"
                 else:
                     colour = "grey"
+
+                    
                 if colour == "green":
                     string.append(guess[x])
                     for word in possible_words[:]:
@@ -86,8 +94,8 @@ while boolean == True:
                 if colour == "yellow":
                     string.append(guess[x])
                     for word in possible_words[:]:
-                        # if string.count(guess[x]) > word.count(guess[x]):
-                        #     possible_words.remove(word)
+                        #if string.count(guess[x]) > word.count(guess[x]):
+                            #possible_words.remove(word)
                         if guess[x] not in word:
                             possible_words.remove(word)
                         elif guess[x] == word[x]:
