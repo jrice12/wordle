@@ -23,23 +23,40 @@ answer_file.close()
 possible_words = answers + words
 boolean = True
 
+def get_letter_counts(word):
+    result = dict()
+    for c in word:
+        result[c] = result.get(c, 0) + 1
+    return result
+
+def available_for_yellow(target_word, letter_counts, guess):
+    green_counts = dict()
+    for position, guess_letter in enumerate(guess):
+        if target_word[position] == guess_letter:
+            green_counts[guess_letter] = green_counts.get(guess_letter, 0) + 1
+
+    available_for_yellow = {letter: count - green_counts.get(letter, 0) for letter, count in letter_counts.items()}
+    return available_for_yellow
+
 while boolean == True:
     next_guess_value2 = 10000000
     string = []
     guess = input("Enter word guessed: ")
+    temp_string = []
     for x in range(5):
         colour = input("Is the letter green, yellow, or grey ")
+        temp_string.append(guess[x])
         if colour == "green":
             string.append(guess[x])
+            
             for word in possible_words[:]:
                 if guess[x] != word[x]:
                     possible_words.remove(word)
         if colour == "grey":
-            #Grey letters before the green in words w repeating letters
             for word in possible_words[:]:
-                if guess[x] in word and guess[x] not in string:
+                if temp_string.count(guess[x]) == guess.count(guess[x]) and guess[x] not in string and guess[x] in word:
                     possible_words.remove(word)
-                elif guess[x] in string and word.count(guess[x]) > 1:
+                elif guess[x] == word[x]:
                     possible_words.remove(word)
         if colour == "yellow":
             string.append(guess[x])
@@ -63,25 +80,26 @@ while boolean == True:
         possible_answers = new_words.copy()
         for answer in possible_answers[:]:
             possible_words = new_words.copy()
-            string=[]
-            tempString = []
+            target_word_letter_counts = get_letter_counts(answer)
+            availability = available_for_yellow(answer, target_word_letter_counts ,guess)
+            temp_string = []
+            string = []
             if guess==answer:
                 continue
 
             for x in range(5):
                 if guess[x] == answer[x]:
-                    tempString.append(guess[x])
                     colour = "green"
                 elif guess[x] in answer:
-                    tempString.append(guess[x])
-                    if tempString.count(guess[x]) > word.count(guess[x]):
-                        colour = "grey"
-                    else:
+                    if availability[guess[x]]> 0:
                         colour = "yellow"
+                        availability[guess[x]] -=1
+                    else:
+                        colour = "grey"
                 else:
                     colour = "grey"
 
-
+                temp_string.append(guess[x])
                 if colour == "green":
                     string.append(guess[x])
                     for word in possible_words[:]:
@@ -89,7 +107,9 @@ while boolean == True:
                             possible_words.remove(word)
                 if colour == "grey":
                     for word in possible_words[:]:
-                        if guess[x] in word and guess[x] not in string:
+                        if temp_string.count(guess[x]) == guess.count(guess[x]) and guess[x] not in string and guess[x] in word:
+                            possible_words.remove(word)
+                        elif guess[x] == word[x]:
                             possible_words.remove(word)
                 if colour == "yellow":
                     string.append(guess[x])
