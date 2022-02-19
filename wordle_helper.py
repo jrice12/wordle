@@ -81,7 +81,7 @@ while boolean == True:
                 else:
                     colour = "grey"
 
-                    
+
                 if colour == "green":
                     string.append(guess[x])
                     for word in possible_words[:]:
@@ -94,9 +94,9 @@ while boolean == True:
                 if colour == "yellow":
                     string.append(guess[x])
                     for word in possible_words[:]:
-                        #if string.count(guess[x]) > word.count(guess[x]):
-                            #possible_words.remove(word)
-                        if guess[x] not in word:
+                        if string.count(guess[x]) > word.count(guess[x]):
+                            possible_words.remove(word)
+                        elif guess[x] not in word:
                             possible_words.remove(word)
                         elif guess[x] == word[x]:
                             possible_words.remove(word)
