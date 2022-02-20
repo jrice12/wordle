@@ -19,6 +19,7 @@ for answer in answer_file:
 answer_file.close()
 
 answer = random.choice(answers)
+answer = "swill"
 print(answer)
 
 def get_letter_counts(word):
