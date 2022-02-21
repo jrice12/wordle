@@ -69,7 +69,7 @@ while boolean == True:
                     possible_words.remove(word)
 
     print("There are ", len(possible_words), " words remaining")
-    #print("The remaining words are ", possible_words)
+    print("The remaining words are ", possible_words)
     new_words = []
     new_words = possible_words.copy()
     possible_answers = possible_words.copy()
@@ -125,7 +125,10 @@ while boolean == True:
         Expected_Remaining_Words = total/len(new_words)
         #print(guess, " : ", Expected_Remaining_Words)
         #print("Relative Frequency: ", wf.zipf_frequency(guess, "en"))
-        value = (Expected_Remaining_Words+(math.log10(1/wf.word_frequency(guess, 'en', minimum=0.00000001))))/2
+        if len(new_words) > 50:
+            value = Expected_Remaining_Words
+        else:
+            value = (Expected_Remaining_Words+(math.log10(1/wf.word_frequency(guess, 'en', minimum=0.00000001))))/2
         temp_value = value
         if temp_value < next_guess_value2:
             next_guess_value2 = temp_value
